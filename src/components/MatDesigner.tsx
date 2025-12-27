@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Canvas, FabricText, FabricImage, Rect } from "fabric";
+import { Canvas, FabricText, FabricImage, Rect, FabricObject } from "fabric";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -38,7 +38,7 @@ export default function MatDesigner({ onDesignChange }: MatDesignerProps) {
   const [fontSize, setFontSize] = useState("48");
   const [fontFamily, setFontFamily] = useState("Arial");
   const [matColor, setMatColor] = useState("#1a1a1a");
-  const [selectedObject, setSelectedObject] = useState<fabric.Object | null>(null);
+  const [selectedObject, setSelectedObject] = useState<FabricObject | null>(null);
 
   useEffect(() => {
     if (!canvasRef.current || fabricCanvasRef.current) return;
@@ -122,7 +122,7 @@ export default function MatDesigner({ onDesignChange }: MatDesignerProps) {
 
   const exportDesign = (canvas: Canvas) => {
     if (onDesignChange) {
-      const dataUrl = canvas.toDataURL({ format: "png", quality: 1 });
+      const dataUrl = canvas.toDataURL({ format: "png", quality: 1, multiplier: 1 });
       onDesignChange(dataUrl);
     }
   };
@@ -138,7 +138,6 @@ export default function MatDesigner({ onDesignChange }: MatDesignerProps) {
       fill: textColor,
       fontFamily: fontFamily,
       fontWeight: "bold",
-      shadow: "2px 2px 4px rgba(0,0,0,0.5)",
     });
 
     canvas.add(text);
